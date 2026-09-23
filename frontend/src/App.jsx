@@ -145,6 +145,20 @@ export default function App() {
     workspaceRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const handleDownloadDocs = () => {
+    if (!generatedDocs) return;
+    const blob = new Blob([generatedDocs], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'API_Documentation.md';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    addToast('⬇️ Documentation downloaded!', 'success');
+  };
+
   const samples = [
     { name: 'Flask Blog API', language: 'python', description: 'CRUD blog with users & comments', code: SAMPLE_FLASK },
     { name: 'Express E-Commerce', language: 'javascript', description: 'Products & orders API', code: `const express = require("express");
@@ -378,9 +392,19 @@ async def delete_user(user_id: int):
               <div className="glass-card-header">
                 <h3>📖 Documentation</h3>
                 {generatedDocs && (
-                  <span style={{fontSize:'0.75rem',color:'var(--accent-green)'}}>
-                    ✅ {parsedEndpoints.length} endpoints
-                  </span>
+                  <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                    <span style={{fontSize:'0.75rem',color:'var(--accent-green)'}}>
+                      ✅ {parsedEndpoints.length} endpoints
+                    </span>
+                    <button 
+                      className="btn btn-secondary btn-sm" 
+                      onClick={handleDownloadDocs}
+                      style={{ padding: '4px 12px', fontSize: '0.75rem' }}
+                      title="Download Markdown"
+                    >
+                      ⬇️ Download .md
+                    </button>
+                  </div>
                 )}
               </div>
               <div className="glass-card-body">

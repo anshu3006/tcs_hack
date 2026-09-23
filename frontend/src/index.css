@@ -795,7 +795,74 @@ body {
 
 .status-200 { background: rgba(48,209,88,0.15); color: var(--accent-green); }
 .status-201 { background: rgba(48,209,88,0.15); color: var(--accent-green); }
-.status-400 { background: rgba(255,159,10,0.15); color: var(--accent-orange); }
+
+/* ========================================================================= */
+/* Ask API Chat Styling                                                      */
+/* ========================================================================= */
+
+.ask-api {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.ask-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.ask-message {
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-lg);
+  max-width: 85%;
+  line-height: 1.5;
+  font-size: 0.9375rem;
+  word-wrap: break-word;
+}
+
+.ask-message.assistant {
+  align-self: flex-start;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-bottom-left-radius: 4px;
+}
+
+.ask-message.user {
+  align-self: flex-end;
+  background: var(--accent-blue);
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+.ask-input-area {
+  display: flex;
+  gap: var(--space-sm);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--border-subtle);
+  align-items: center;
+}
+
+.ask-input {
+  flex: 1;
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  padding: 10px 16px;
+  border-radius: var(--radius-xl);
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  transition: all var(--transition-normal);
+  outline: none;
+}
+
+.ask-input:focus {
+  border-color: var(--accent-blue);
+  box-shadow: 0 0 0 2px rgba(0, 113, 227, 0.2);
+}.status-400 { background: rgba(255,159,10,0.15); color: var(--accent-orange); }
 .status-404 { background: rgba(255,69,58,0.15); color: var(--accent-red); }
 .status-500 { background: rgba(255,69,58,0.15); color: var(--accent-red); }
 
