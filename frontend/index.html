@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="AI-powered API Documentation Generator — paste your API code and get instant, structured documentation with quality analysis.">
-  <title>DocForge AI — API Documentation Generator</title>
+  <meta name="description" content="DocForge AI — AI-Powered API Documentation, OWASP Security Intelligence & Live Sandbox Platform">
+  <title>DocForge AI — Enterprise API Documentation & Security Intelligence</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -37,12 +37,14 @@
       </div>
     </div>
     <div class="header-center">
-      <p class="tagline">AI-Powered API Documentation Generator</p>
+      <div class="llm-pill">
+        <span class="sparkle">✨</span> Powered by <strong style="color:#a78bfa; margin-left:4px">Google Gemini 2.0 Flash</strong>
+      </div>
     </div>
     <div class="header-right">
       <div class="status-badge" id="statusBadge">
         <span class="status-dot"></span>
-        <span class="status-text">Ready</span>
+        <span class="status-text">Engine Ready</span>
       </div>
     </div>
   </header>
@@ -54,18 +56,18 @@
       <div class="panel-header">
         <h2 class="panel-title">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-          API Code Input
+          API Source Code / Specification
         </h2>
         <div class="panel-actions">
           <select id="languageSelect" class="select-lang">
-            <option value="auto">Auto-detect</option>
-            <option value="python">Python</option>
-            <option value="javascript">JavaScript</option>
+            <option value="auto">Auto-detect Language</option>
+            <option value="python">Python (Flask / FastAPI)</option>
+            <option value="javascript">JavaScript (Express / Next.js)</option>
             <option value="typescript">TypeScript</option>
-            <option value="java">Java</option>
-            <option value="go">Go</option>
-            <option value="json">JSON/OpenAPI</option>
-            <option value="yaml">YAML</option>
+            <option value="java">Java (Spring Boot)</option>
+            <option value="go">Go (Gin / Echo)</option>
+            <option value="json">OpenAPI 3.0 / Swagger JSON</option>
+            <option value="yaml">OpenAPI YAML</option>
           </select>
         </div>
       </div>
@@ -82,7 +84,7 @@
         </button>
         <button class="tab-btn" data-tab="samples" id="tabSamples">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
-          Samples
+          Interactive Samples
         </button>
       </div>
 
@@ -93,14 +95,14 @@
           <textarea
             id="codeInput"
             class="code-editor"
-            placeholder="Paste your API code here...
+            placeholder="Paste your API controller or endpoint definition here...
 
-Examples:
-  • Flask/FastAPI Python routes
-  • Express.js endpoints
-  • Spring Boot controllers
-  • OpenAPI/Swagger JSON
-  • Any REST API definitions"
+Supported Frameworks:
+  • Flask, FastAPI, Django REST (Python)
+  • Express.js, Nest.js, Next.js (Node.js)
+  • Spring Boot Controllers (Java)
+  • Gin, Echo, Gorilla Mux (Go)
+  • OpenAPI 3.0 / Swagger (JSON / YAML)"
             spellcheck="false"
           ></textarea>
         </div>
@@ -122,7 +124,7 @@ Examples:
               </defs>
             </svg>
           </div>
-          <p class="upload-text">Drop your API file here or <span class="upload-browse">browse</span></p>
+          <p class="upload-text">Drop your API source file here or <span class="upload-browse">browse</span></p>
           <p class="upload-hint">.py  .js  .ts  .java  .go  .json  .yaml</p>
           <input type="file" id="fileInput" accept=".py,.js,.ts,.java,.go,.json,.yaml,.yml,.rb,.php" hidden>
         </div>
@@ -140,53 +142,53 @@ Examples:
         <div class="samples-grid">
           <button class="sample-card" data-sample="flask">
             <span class="sample-icon">🐍</span>
-            <span class="sample-name">Flask API</span>
-            <span class="sample-desc">User CRUD endpoints</span>
+            <span class="sample-name">Flask REST API</span>
+            <span class="sample-desc">User CRUD & Auth</span>
           </button>
           <button class="sample-card" data-sample="express">
             <span class="sample-icon">🟢</span>
-            <span class="sample-name">Express.js</span>
-            <span class="sample-desc">REST API with auth</span>
+            <span class="sample-name">Express.js API</span>
+            <span class="sample-desc">Products & Reviews</span>
           </button>
           <button class="sample-card" data-sample="fastapi">
             <span class="sample-icon">⚡</span>
-            <span class="sample-name">FastAPI</span>
-            <span class="sample-desc">Async endpoints</span>
+            <span class="sample-name">FastAPI Async</span>
+            <span class="sample-desc">Tasks & Pydantic Schema</span>
           </button>
           <button class="sample-card" data-sample="openapi">
             <span class="sample-icon">📋</span>
-            <span class="sample-name">OpenAPI JSON</span>
-            <span class="sample-desc">Swagger definition</span>
+            <span class="sample-name">OpenAPI 3.0 JSON</span>
+            <span class="sample-desc">Blog API Specification</span>
           </button>
           <button class="sample-card" data-sample="spring">
             <span class="sample-icon">☕</span>
             <span class="sample-name">Spring Boot</span>
-            <span class="sample-desc">REST Controller</span>
+            <span class="sample-desc">Order Controller</span>
           </button>
           <button class="sample-card" data-sample="go">
             <span class="sample-icon">🔵</span>
-            <span class="sample-name">Go / Gin</span>
-            <span class="sample-desc">HTTP handlers</span>
+            <span class="sample-name">Go / Gin Engine</span>
+            <span class="sample-desc">Book Store Microservice</span>
           </button>
         </div>
       </div>
 
-      <!-- Generate Button -->
+      <!-- Generate Action Bar -->
       <div class="generate-bar">
         <button class="btn-generate" id="generateBtn">
           <span class="btn-text">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10"/></svg>
-            Generate Documentation
+            Generate AI Docs + OWASP Security Audit
           </span>
           <span class="btn-loading hidden">
             <div class="spinner"></div>
-            Generating...
+            Analyzing with Gemini 2.0 Flash...
           </span>
         </button>
       </div>
     </section>
 
-    <!-- Right Panel: Output -->
+    <!-- Right Panel: Intelligent Output -->
     <section class="panel panel-output">
       <!-- Empty state -->
       <div class="empty-state" id="emptyState">
@@ -197,7 +199,6 @@ Examples:
             <line x1="45" y1="45" x2="75" y2="45" stroke="url(#empty-grad)" stroke-width="2" opacity="0.4" stroke-linecap="round"/>
             <line x1="45" y1="55" x2="65" y2="55" stroke="url(#empty-grad)" stroke-width="2" opacity="0.3" stroke-linecap="round"/>
             <line x1="45" y1="65" x2="70" y2="65" stroke="url(#empty-grad)" stroke-width="2" opacity="0.3" stroke-linecap="round"/>
-            <line x1="45" y1="75" x2="60" y2="75" stroke="url(#empty-grad)" stroke-width="2" opacity="0.2" stroke-linecap="round"/>
             <defs>
               <linearGradient id="empty-grad" x1="0" y1="0" x2="120" y2="120">
                 <stop stop-color="#6366f1"/>
@@ -206,13 +207,13 @@ Examples:
             </defs>
           </svg>
         </div>
-        <h3 class="empty-title">Your documentation will appear here</h3>
-        <p class="empty-desc">Paste API code or upload a file, then click Generate</p>
+        <h3 class="empty-title">AI Documentation & Security Intelligence Hub</h3>
+        <p class="empty-desc">Paste API code or pick a sample above to generate live docs, OWASP security audits & SDK code snippets.</p>
       </div>
 
-      <!-- Results -->
+      <!-- Results Output -->
       <div class="results hidden" id="results">
-        <!-- Quality Banner -->
+        <!-- Top Quality & Action Bar -->
         <div class="quality-banner" id="qualityBanner">
           <div class="quality-ring-wrapper">
             <svg class="quality-ring" width="80" height="80" viewBox="0 0 80 80">
@@ -229,9 +230,10 @@ Examples:
             </svg>
             <div class="quality-score" id="qualityScore">0%</div>
           </div>
+
           <div class="quality-info">
             <div class="quality-grade-row">
-              <span class="quality-label">Documentation Quality</span>
+              <span class="quality-label">Documentation & Security Completeness</span>
               <span class="quality-grade" id="qualityGrade">—</span>
             </div>
             <p class="quality-summary" id="qualitySummary"></p>
@@ -240,28 +242,65 @@ Examples:
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
                 0 endpoints
               </span>
-              <span class="quality-meta-item" id="generatedAt">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                —
+              <span class="quality-meta-item" id="llmModelInfo">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                Gemini 2.0 Flash
               </span>
             </div>
           </div>
-          <button class="quality-expand-btn" id="qualityExpandBtn" title="Show quality details">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-          </button>
+
+          <div class="quality-actions">
+            <button class="btn-export-openapi" id="exportOpenApiBtn" title="Export OpenAPI 3.0 JSON">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Export OpenAPI 3.0
+            </button>
+            <button class="quality-expand-btn" id="qualityExpandBtn" title="Toggle detailed quality & OWASP checks">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+          </div>
         </div>
 
-        <!-- Quality Details (collapsible) -->
+        <!-- Quality & OWASP Checklist Details -->
         <div class="quality-details hidden" id="qualityDetails">
           <div class="quality-checks" id="qualityChecks"></div>
           <div class="quality-suggestions" id="qualitySuggestions"></div>
         </div>
 
-        <!-- Documentation Output -->
+        <!-- Documentation Output Area -->
         <div class="docs-output" id="docsOutput"></div>
       </div>
     </section>
   </main>
+
+  <!-- Interactive Sandbox Live Execution Modal -->
+  <div class="modal-backdrop hidden" id="sandboxModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span class="modal-dot"></span>
+          DocForge Live AI Sandbox Runner
+        </div>
+        <button class="modal-close" id="closeSandboxModal">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="sandbox-target-bar">
+          <span class="method-badge post" id="modalMethod">POST</span>
+          <span class="sandbox-url" id="modalUrl">http://localhost:3001/api/mock-execute</span>
+        </div>
+        <div class="sandbox-section">
+          <label class="sandbox-label">Request Payload (JSON)</label>
+          <textarea class="sandbox-editor" id="sandboxPayload">{ "name": "Rahul", "email": "rahul@example.com" }</textarea>
+        </div>
+        <button class="btn-run-sandbox" id="runSandboxBtn">
+          ⚡ Execute Live Request
+        </button>
+        <div class="sandbox-section hidden" id="sandboxResponseArea">
+          <label class="sandbox-label">Sandbox Response Output (HTTP 200 OK)</label>
+          <pre class="sandbox-output" id="sandboxOutput"></pre>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Toast notification -->
   <div class="toast hidden" id="toast">
