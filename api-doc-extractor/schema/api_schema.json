@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://autodoc.hackathon/schema/api_schema.json",
+  "title": "AutoDoc Shared API Schema",
+  "description": "Canonical, source-agnostic representation of an API's surface. Every extractor (OpenAPI, Flask/FastAPI static-analysis, Spring, ...) must emit JSON conforming to this schema. Person 2 (Doc Writer) consumes ONLY this schema and never needs to know what the original source looked like.",
+  "type": "object",
+  "required": ["api_name", "version", "source_type", "endpoints", "extraction_metadata"],
+  "properties": {
+    "api_name": {
+      "type": "string",
+      "description": "Human-readable name of the API, taken from the spec title or inferred from the module/app name."
+    },
+    "version": {
+      "type": "string",
+      "description": "API version string, e.g. '1.0.0'. 'unknown' if it cannot be determined."
+    },
+    "base_url": {
+      "type": ["string", "null"],
+      "description": "Base URL / server prefix, if known."
+    },
+    "description": {
+      "type": ["string", "null"],
+      "description": "Top-level API description, if the source provides one (e.g. OpenAPI info.description, module docstring)."
+    },
+    "source_type": {
+      "type": "string",
+      "enum": ["openapi", "flask", "fastapi", "spring", "unknown"],
+      "description": "Which extractor produced this document."
+    },
+    "endpoints": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/endpoint" }
+    },
+    "extraction_metadata": { "$ref": "#/$defs/extraction_metadata" }
+  },
+  "$defs": {
+    "parameter": {
+      "type": "object",
+      "required": ["name", "in", "required"],
+      "properties": {
+        "name": { "type": "string" },
+        "in": {
+          "type": "string",
+          "enum": ["path", "query", "header", "cookie", "body"]
+        },
+        "type": {
+          "type": "string",
+          "description": "Best-effort primitive/object type name, e.g. 'integer', 'string', 'array', 'object', 'unknown'.",
+          "default": "unknown"
+        },
+        "required": { "type": "boolean" },
+        "default": {},
+        "description": { "type": ["string", "null"] },
+        "example": {}
+      }
+    },
+    "request_body": {
+      "type": ["object", "null"],
+      "properties": {
+        "content_type": { "type": "string", "default": "application/json" },
+        "required": { "type": "boolean", "default": false },
+        "schema": { "type": ["object", "null"], "description": "Best-effort JSON-schema-like shape of the body, or field list for statically-analyzed models." },
+        "example": {}
+      }
+    },
+    "response": {
+      "type": "object",
+      "required": ["status_code"],
+      "properties": {
+        "status_code": { "type": "string" },
+        "description": { "type": ["string", "null"] },
+        "schema": { "type": ["object", "null"] },
+        "example": {}
+      }
+    },
+    "endpoint": {
+      "type": "object",
+      "required": ["path", "method", "parameters", "responses"],
+      "properties": {
+        "path": { "type": "string" },
+        "method": {
+          "type": "string",
+          "enum": ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"]
+        },
+        "operation_id": { "type": ["string", "null"] },
+        "summary": { "type": ["string", "null"] },
+        "description": { "type": ["string", "null"] },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "parameters": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/parameter" }
+        },
+        "request_body": { "$ref": "#/$defs/request_body" },
+        "responses": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/response" }
+        },
+        "deprecated": { "type": "boolean", "default": false },
+        "source_location": {
+          "type": ["object", "null"],
+          "description": "Where in the source this endpoint was found — used for traceability/debugging, not shown to end users.",
+          "properties": {
+            "file": { "type": "string" },
+            "line": { "type": "integer" }
+          }
+        }
+      }
+    },
+    "extraction_metadata": {
+      "type": "object",
+      "required": ["source_file", "extractor_version", "extracted_at"],
+      "properties": {
+        "source_file": { "type": "string" },
+        "extractor_version": { "type": "string" },
+        "extracted_at": { "type": "string", "format": "date-time" },
+        "warnings": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Non-fatal issues encountered during extraction (e.g. 'could not infer type for param x'), surfaced so Person 2/3 can flag low-confidence sections."
+        }
+      }
+    }
+  }
+}

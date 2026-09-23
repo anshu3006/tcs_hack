@@ -1,0 +1,71 @@
+{
+  "api_name": "Task Manager API",
+  "version": "1.0",
+  "source": "flask-ast",
+  "endpoints": [
+    {
+      "id": "GET_/tasks",
+      "method": "GET",
+      "path": "/tasks",
+      "summary": "List all tasks, optionally filtered by status.",
+      "parameters": [
+        {"name": "status", "in": "query", "type": "string", "required": false,
+         "description": "one of 'pending', 'done'"}
+      ],
+      "request_body": null,
+      "responses": {
+        "200": {"description": "array of task objects"}
+      },
+      "source_location": {"file": "app.py", "line": 12}
+    },
+    {
+      "id": "POST_/tasks",
+      "method": "POST",
+      "path": "/tasks",
+      "summary": "Create a new task.",
+      "parameters": [],
+      "request_body": {
+        "title": "string, required",
+        "description": "string, optional",
+        "due_date": "ISO 8601 date string, optional"
+      },
+      "responses": {
+        "201": {"description": "the created task object"},
+        "400": {"description": "missing required 'title' field"}
+      },
+      "source_location": {"file": "app.py", "line": 24}
+    },
+    {
+      "id": "GET_/tasks/{task_id}",
+      "method": "GET",
+      "path": "/tasks/{task_id}",
+      "summary": "Get a single task by id.",
+      "parameters": [
+        {"name": "task_id", "in": "path", "type": "integer", "required": true,
+         "description": "numeric id of the task"}
+      ],
+      "request_body": null,
+      "responses": {
+        "200": {"description": "the task object"},
+        "404": {"description": "no task with that id"}
+      },
+      "source_location": {"file": "app.py", "line": 38}
+    },
+    {
+      "id": "DELETE_/tasks/{task_id}",
+      "method": "DELETE",
+      "path": "/tasks/{task_id}",
+      "summary": "Delete a task by id.",
+      "parameters": [
+        {"name": "task_id", "in": "path", "type": "integer", "required": true,
+         "description": "numeric id of the task"}
+      ],
+      "request_body": null,
+      "responses": {
+        "204": {"description": "task deleted"},
+        "404": {"description": "no task with that id"}
+      },
+      "source_location": {"file": "app.py", "line": 48}
+    }
+  ]
+}
