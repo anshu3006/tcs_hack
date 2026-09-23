@@ -1,6 +1,7 @@
 import { useState, useRef, useCallback } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import html2pdf from 'html2pdf.js';
 import { generateDocs, computeDrift, askApi, executeSandbox, getSamples } from './api';
 import CodeEditor from './components/CodeEditor';
 import DocViewer from './components/DocViewer';
@@ -157,6 +158,47 @@ export default function App() {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     addToast('⬇️ Documentation downloaded!', 'success');
+  };
+
+  const handleDownloadPdf = () => {
+    if (!generatedDocs) return;
+    const element = document.querySelector('.doc-viewer-content') || document.querySelector('.glass-card-body .markdown-body');
+    if (!element) {
+        addToast('Error: Could not capture documentation content', 'error');
+        return;
+    }
+    
+    // Create a clone to force light mode for the PDF
+    const clone = element.cloneNode(true);
+    const wrapper = document.createElement('div');
+    wrapper.appendChild(clone);
+    wrapper.style.padding = '40px';
+    wrapper.style.backgroundColor = '#ffffff';
+    wrapper.style.color = '#000000';
+    
+    // Style text to be readable
+    const allText = wrapper.querySelectorAll('*');
+    allText.forEach(el => {
+      el.style.color = '#000000';
+      if (el.tagName === 'PRE') {
+        el.style.backgroundColor = '#f5f5f5';
+        el.style.padding = '10px';
+        el.style.borderRadius = '5px';
+      }
+    });
+
+    const opt = {
+      margin: 10,
+      filename: 'API_Documentation.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    addToast('⏳ Generating PDF...', 'info');
+    html2pdf().set(opt).from(wrapper).save().then(() => {
+      addToast('⬇️ PDF downloaded!', 'success');
+    });
   };
 
   const samples = [
@@ -402,7 +444,15 @@ async def delete_user(user_id: int):
                       style={{ padding: '4px 12px', fontSize: '0.75rem' }}
                       title="Download Markdown"
                     >
-                      ⬇️ Download .md
+                      ⬇️ .md
+                    </button>
+                    <button 
+                      className="btn btn-secondary btn-sm" 
+                      onClick={handleDownloadPdf}
+                      style={{ padding: '4px 12px', fontSize: '0.75rem' }}
+                      title="Download PDF"
+                    >
+                      📄 .pdf
                     </button>
                   </div>
                 )}
